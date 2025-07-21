@@ -1,6 +1,0 @@
-# Allow all web crawlers to access the entire site
-User-agent: *
-Allow: /
-
-# Specify the location of the sitemap for all crawlers
-Sitemap: https://porimapbd.github.io/sitemap.xml

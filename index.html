@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Language-specific Meta Tags (will be updated by JavaScript) -->
+    <title data-lang-key="meta_title">পরিমাপ বিডি - জমি পরিমাপ ও ইউনিট কনভার্টার</title>
+    <meta name="description" content="পরিমাপ বিডি একটি আধুনিক ও সহজবোধ্য টুল, যা দিয়ে আপনি জমিজমার ক্ষেত্রফল নির্ণয় এবং বিভিন্ন ইউনিটের মধ্যে রূপান্তর করতে পারবেন।" data-lang-key="meta_description">
+    <meta name="keywords" content="জমি পরিমাপ, ক্ষেত্রফল নির্ণয়, ইউনিট কনভার্টার, বিঘা, কাঠা, শতক, একর, হেক্টর, porimap bd, land measurement bangladesh" data-lang-key="meta_keywords">
+
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><g fill=%22none%22 stroke=%22%2300796b%22 stroke-width=%2210%22 stroke-linecap=%22round%22><circle cx=%2250%22 cy=%2220%22 r=%2210%22/><path d=%22M50 30 L25 85%22/><path d=%22M50 30 L75 85%22/></g></svg>">
+
+    <!-- Google Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Font Awesome for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- html2canvas Library for PNG Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- INTERNAL CSS -->
+    <style>
+        :root {
+            --primary-color: #00796b; /* Teal */
+            --secondary-color: #004d40; /* Darker Teal */
+            --accent-color: #ffc107; /* Amber */
+            --bg-color: #f4f7f6;
+            --text-color: #333;
+            --light-gray: #e0e0e0;
+            --white: #ffffff;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --font-bn: 'Hind Siliguri', sans-serif;
+            --font-en: 'Poppins', sans-serif;
+        }
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-bn);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: 600;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Header & Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            background-color: var(--white);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        .logo .material-icons {
+            font-size: 2rem;
+            vertical-align: middle;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            padding: 4px;
+            cursor: pointer;
+        }
+        .lang-switch span {
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .lang-switch .active {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+        }
+        .menu-toggle .material-icons {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+        }
+        .section-subtitle {
+            text-align: center;
+            margin-top: -30px;
+            margin-bottom: 50px;
+            color: #777;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Hero Section */
+        #home {
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('https://images.unsplash.com/photo-1599675833638-3d5f4a6e0d3c?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 0;
+        }
+        #home h1 {
+            font-size: 3.5rem;
+        }
+        #home p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 20px auto;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        .btn .material-icons {
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+
+        /* How it works section */
+        .how-it-works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+        .step-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+        }
+        .step-card .icon {
+            font-size: 3.5rem;
+            color: var(--primary-color);
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .testimonial-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .testimonial-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid var(--primary-color);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+        .testimonial-card h4 {
+            color: var(--primary-color);
+        }
+
+        /* FAQ Section */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            background: var(--white);
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .faq-question::after {
+            content: '\e5cf';
+            font-family: 'Material Icons';
+            font-size: 24px;
+            transition: transform 0.3s;
+        }
+        .faq-item.active .faq-question::after {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .faq-answer p {
+             padding: 0 20px 20px;
+             margin: 0;
+        }
+
+        /* Area Calculator Section */
+        .shape-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .shape-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .shape-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        .shape-card .icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+        }
+        .shape-card h4 {
+            margin: 10px 0;
+        }
+        .shape-card p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Unit Converter Section */
+        .converter-container {
+            max-width: 800px;
+            margin: auto;
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+        }
+        .converter-form {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .converter-form > div {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+        .converter-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .converter-form input, .converter-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        /* About Section - UPDATED */
+        .about-content {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start; /* Changed from center to flex-start */
+        }
+        .about-image {
+            flex-basis: 420px; /* Increased basis */
+            flex-shrink: 0;
+        }
+        .about-image img {
+            width: 100%;
+            max-width: 420px; /* Increased max-width */
+            height: auto;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 5px solid var(--primary-color);
+            box-shadow: var(--card-shadow);
+        }
+        .about-text {
+            flex: 1;
+        }
+        .about-text h3 {
+             margin-top: 0;
+             margin-bottom: 15px;
+        }
+         .about-text p {
+             margin-bottom: 15px;
+             text-align: justify;
+         }
+        .social-links {
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+        .social-links a {
+            color: var(--secondary-color);
+            background-color: var(--white);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .social-links a:hover {
+            color: var(--white);
+            background-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Donation Section */
+        .donation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .donation-card {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .donation-card:hover {
+             transform: translateY(-8px);
+             border-color: var(--primary-color);
+        }
+        .donation-logo-wrapper {
+            background-color: #f8f9fa;
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .donation-logo-wrapper img {
+            max-width: 70%;
+            max-height: 70%;
+            height: auto;
+            object-fit: contain;
+        }
+        .donation-card h4 {
+            font-size: 1.6rem;
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        .donation-card p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        .donation-card .card-description {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+            min-height: 40px;
+        }
+        
+        /* Contact Section - UPDATED */
+        .contact-content {
+            display: flex;
+            gap: 40px;
+            align-items: flex-start;
+        }
+        .contact-form-container {
+             flex: 1;
+        }
+        .contact-form {
+            width: 100%;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .map-container {
+            flex: 1;
+        }
+        .map-container h3 {
+             margin-bottom: 10px;
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 460px; /* Adjusted height */
+            border: 0;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+        }
+        .contact-form-container h3 {
+            margin-bottom: 10px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            -webkit-backdrop-filter: blur(5px);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 30px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .close-btn {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+        }
+        
+        #calculatorForm {
+            display: flex;
+            flex-direction: column;
+        }
+        #calculatorForm button[type="submit"] {
+            margin-top: 20px;
+            align-self: center;
+        }
+        
+        .modal-form-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group label {
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .input-group input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--light-gray);
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        .input-pair {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .input-pair input {
+            width: 50%;
+        }
+        
+        /* Result Display */
+        #result-container, #converter-result-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--bg-color);
+            border-radius: 5px;
+            display: none;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .result-table th, .result-table td {
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            text-align: left;
+        }
+        .result-table th {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
+        .result-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* PNG Download format */
+        #downloadable-result, #downloadable-converter-result {
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            width: 800px;
+            padding: 30px;
+            background-color: var(--white);
+            font-family: var(--font-bn);
+            border: 2px solid var(--primary-color);
+        }
+        .download-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .download-logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .download-logo .material-icons {
+            font-size: 2.2rem;
+        }
+        .download-date {
+            font-size: 1rem;
+            color: #555;
+        }
+        .download-title {
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .download-footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid var(--light-gray);
+            text-align: center;
+            font-size: 0.9rem;
+            color: #777;
+        }
+        
+        /* Footer */
+        .site-footer {
+            background-color: var(--secondary-color);
+            color: var(--bg-color);
+            padding: 30px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .site-footer p {
+            margin-bottom: 5px;
+        }
+        .site-footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .site-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--white);
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                text-align: center;
+                gap: 0;
+            }
+            .nav-menu.active {
+                display: flex;
+            }
+            .nav-menu li {
+                padding: 1rem 0;
+                border-top: 1px solid var(--light-gray);
+            }
+            .menu-toggle {
+                display: block;
+            }
+            .about-content, .contact-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            .about-text {
+                text-align: center;
+            }
+            .about-text p {
+                text-align: center;
+            }
+            .social-links {
+                justify-content: center;
+            }
+            .about-image {
+                margin-bottom: 20px;
+                width: 90%; /* Using percentage for better scaling */
+                max-width: 350px; /* Capping the max size on mobile */
+            }
+            .contact-form-container, .map-container {
+                width: 100%;
+            }
+            .contact-form-container h3, .contact-form-container p {
+                text-align: center;
+            }
+            #home h1 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .how-it-works-grid, .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-content {
+                gap: 30px;
+            }
+            .map-container iframe {
+                height: 350px;
+            }
+            #home h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            .nav-right {
+                gap: 1rem;
+            }
+            .container {
+                padding: 30px 15px;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="navbar">
+        <a href="#home" class="logo">
+            <i class="material-icons">architecture</i>
+            <span data-lang-key="website_name">পরিমাপ বিডি</span>
+        </a>
+        <nav>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" data-lang-key="nav_home">হোম</a></li>
+                <li><a href="#area-calculation" data-lang-key="nav_calculator">ক্ষেত্রফল নির্ণয়</a></li>
+                <li><a href="#unit-converter" data-lang-key="nav_converter">ইউনিট কনভার্টার</a></li>
+                <li><a href="#about" data-lang-key="nav_about">আমার সম্পর্কে</a></li>
+                <li><a href="#donate" data-lang-key="nav_donate">দান করুন</a></li>
+                <li><a href="#contact" data-lang-key="nav_contact">যোগাযোগ</a></li>
+            </ul>
+        </nav>
+        <div class="nav-right">
+            <div class="lang-switch" id="langSwitch">
+                <span class="bn active">🇧🇩</span>
+                <span class="en">🇬🇧</span>
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <i class="material-icons">menu</i>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- HOME SECTION -->
+        <section id="home">
+            <div class="container">
+                <h1 data-lang-key="home_title">জমিজমার পরিমাপ, এখন হাতের মুঠোয়।</h1>
+                <p data-lang-key="home_subtitle">পরিমাপ বিডি একটি আধুনিক ও সহজবোধ্য টুল, যা দিয়ে আপনি জমিজমার ক্ষেত্রফল নির্ণয় এবং বিভিন্ন ইউনিটের মধ্যে রূপান্তর করতে পারবেন। সম্পূর্ণ বিনামূল্যে ও নির্ভুল হিসাব।</p>
+                <a href="#area-calculation" class="btn" data-lang-key="home_cta_button">ক্ষেত্রফল নির্ণয় করুন <i class="material-icons">arrow_forward</i></a>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section id="how-it-works">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="how_it_works_title">এটি কিভাবে কাজ করে</h2>
+                <p class="section-subtitle" data-lang-key="how_it_works_subtitle">মাত্র ৩টি সহজ ধাপে আপনার জমির ক্ষেত্রফল গণনা করুন।</p>
+                <div class="how-it-works-grid">
+                    <div class="step-card">
+                        <i class="material-icons icon">crop_square</i>
+                        <h3 data-lang-key="step1_title">জমির আকৃতি নির্বাচন</h3>
+                        <p data-lang-key="step1_desc">প্রথমে আপনার জমির আকৃতি (যেমন: চতুর্ভুজ, ত্রিভুজ, বৃত্ত) তালিকা থেকে নির্বাচন করুন।</p>
+                    </div>
+                    <div class="step-card">
+                        <i class="material-icons icon">input</i>
+                        <h3 data-lang-key="step2_title">দৈর্ঘ্য-প্রস্থ ইনপুট দিন</h3>
+                        <p data-lang-key="step2_desc">এরপর নির্দিষ্ট ফর্ম এ আপনার জমির বাহুগুলোর দৈর্ঘ্য ফুট ও ইঞ্চি এককে প্রদান করুন।</p>
+                    </div>
+                    <div class="step-card">
+                        <i class="material-icons icon">calculate</i>
+                        <h3 data-lang-key="step3_title">ফলাফল দেখুন ও ডাউনলোড করুন</h3>
+                        <p data-lang-key="step3_desc">সাথে সাথে ফলাফল দেখুন বিঘা, কাঠা, শতক সহ বিভিন্ন এককে এবং প্রয়োজন হলে ডাউনলোড করুন।</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AREA CALCULATION SECTION -->
+        <section id="area-calculation">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="calculator_section_title">ক্ষেত্রফল নির্ণয় করুন</h2>
+                <p class="section-subtitle" data-lang-key="calculator_section_subtitle">নিচের তালিকা থেকে আপনার জমির আকৃতি নির্বাচন করে পরিমাপ শুরু করুন।</p>
+                <div class="shape-grid">
+                    <!-- Shape cards will be generated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- UNIT CONVERTER SECTION -->
+        <section id="unit-converter">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="converter_section_title">ইউনিট কনভার্টার</h2>
+                <p class="section-subtitle" data-lang-key="converter_section_subtitle">যেকোনো একটি এককের মান ইনপুট করে অন্য এককগুলোতে তার সমতুল্য মান জানুন।</p>
+                <div class="converter-container">
+                    <form class="converter-form" onsubmit="return false;">
+                        <div>
+                            <label for="converter-input" data-lang-key="converter_input_label">পরিমাণ</label>
+                            <input type="number" id="converter-input" placeholder="যেমন: ১" step="any">
+                        </div>
+                        <div>
+                            <label for="from-unit" data-lang-key="converter_from_unit_label">থেকে</label>
+                            <select id="from-unit">
+                                <!-- Options will be generated by JavaScript -->
+                            </select>
+                        </div>
+                    </form>
+                    <div id="converter-result-container">
+                      <h3 data-lang-key="converter_result_title">রূপান্তরিত ফলাফল</h3>
+                      <table class="result-table" id="converter-result-table">
+                          <thead>
+                              <tr>
+                                  <th data-lang-key="table_header_unit">ইউনিট</th>
+                                  <th data-lang-key="table_header_value">মান</th>
+                              </tr>
+                          </thead>
+                          <tbody></tbody>
+                      </table>
+                      <div class="result-actions">
+                          <button class="btn" id="downloadConverterBtn"><i class="material-icons">download</i> <span data-lang-key="download_png">PNG ডাউনলোড</span></button>
+                          <button class="btn" id="shareConverterBtn"><i class="material-icons">share</i> <span data-lang-key="share_result">শেয়ার</span></button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section id="testimonials">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="testimonial_title">ব্যবহারকারীদের মতামত</h2>
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=387&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User 1" crossorigin="anonymous">
+                        <p data-lang-key="testimonial1_text">"খুবই উপকারী একটি ওয়েবসাইট। আমার মতো সাধারণ মানুষের জন্য জমিজমার হিসাব অনেক সহজ হয়ে গেছে।"</p>
+                        <h4 data-lang-key="testimonial1_name">আব্দুল করিম</h4>
+                        <span data-lang-key="testimonial1_location">ঢাকা, বাংলাদেশ</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=387&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User 2" crossorigin="anonymous">
+                        <p data-lang-key="testimonial2_text">"এই সাইটের ইউনিট কনভার্টারটি অসাধারণ। বিশেষ করে PNG ডাউনলোড ফিচারটি আমার খুব কাজে লেগেছে।"</p>
+                        <h4 data-lang-key="testimonial2_name">সুমন আহমেদ</h4>
+                        <span data-lang-key="testimonial2_location">চট্টগ্রাম, বাংলাদেশ</span>
+                    </div>
+                    <div class="testimonial-card">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=387&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="User 3" crossorigin="anonymous">
+                        <p data-lang-key="testimonial3_text">"মোবাইলে খুব সহজে ব্যবহার করা যায়। আমি একজন সার্ভেয়ার, আমার প্রতিদিনের কাজে এটি ব্যবহার করি।"</p>
+                        <h4 data-lang-key="testimonial3_name">ফারিহা ইসলাম</h4>
+                        <span data-lang-key="testimonial3_location">রাজশাহী, বাংলাদেশ</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ SECTION -->
+        <section id="faq">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="faq_title">সাধারণ জিজ্ঞাসা</h2>
+                <div class="faq-container">
+                    <!-- FAQ items will be generated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="about_section_title">আমার সম্পর্কে</h2>
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="https://i.imgur.com/kikKmiQ.png" alt="ইয়ামিন হাসান" class="floating" crossorigin="anonymous">
+                    </div>
+                    <div class="about-text">
+                        <h3 data-lang-key="about_name">ইয়ামিন হাসান</h3>
+                        <p data-lang-key="about_bio_1">আমি একজন ডিপ্লোমা ইন সার্ভে ইঞ্জিনিয়ারিংয়ের ছাত্র এবং একই সঙ্গে একজন ওয়েব ডেভেলপার। ভূমি জরিপের মতো একটি জটিল ও কারিগরি বিষয়কে সাধারণ মানুষের জন্য সহজবোধ্য এবং ব্যবহারযোগ্য করে তুলতেই আমি এই টুলটি তৈরি করেছি। প্রযুক্তির সাহায্যে মানুষ যেন নিজের প্রয়োজন অনুযায়ী জমি পরিমাপ ও সংশ্লিষ্ট তথ্য সহজে বুঝতে ও ব্যবহার করতে পারে—এটাই ছিল আমার মূল ভাবনা।</p>
+                        <p data-lang-key="about_bio_2">আমার মূল উদ্দেশ্য হলো, জমির পরিমাপ সংক্রান্ত যাবতীয় হিসাব-নিকাশকে একটি সহজ এবং নির্ভরযোগ্য প্ল্যাটফর্মে নিয়ে আসা, যাতে যে কেউ সহজেই এটি ব্যবহার করতে পারে। আপনাদের যেকোনো গঠনমূলক মতামত ও পরামর্শ আমাকে এই উদ্যোগকে আরও এগিয়ে নিতে উৎসাহিত করবে।</p>
+                        <div class="social-links">
+                            <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DONATION SECTION -->
+        <section id="donate">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="donate_section_title">অনুদান পাঠান</h2>
+                <p class="section-subtitle" data-lang-key="donate_section_subtitle">এই প্রকল্পটি সম্পূর্ণ বিনামূল্যে পরিচালিত হয়। আপনার ছোট্ট একটি অনুদান আমাদের এই প্রকল্পটি চালিয়ে নিতে এবং এটিকে আরও উন্নত করতে বড় অনুপ্রেরণা জোগাবে।</p>
+                <div class="donation-grid">
+                    <div class="donation-card">
+                        <div class="donation-logo-wrapper">
+                            <img src="https://i.imgur.com/YzAC7l3.png" alt="bKash Logo" crossorigin="anonymous">
+                        </div>
+                        <h4>bKash</h4>
+                        <p>+8801326150227</p>
+                        <div class="card-description" data-lang-key="payment_description_bkash">সবচেয়ে জনপ্রিয় মোবাইল ব্যাংকিং মাধ্যম।</div>
+                    </div>
+                    <div class="donation-card">
+                        <div class="donation-logo-wrapper">
+                            <img src="https://i.imgur.com/s5m6wri.png" alt="Nagad Logo" crossorigin="anonymous">
+                        </div>
+                        <h4>Nagad</h4>
+                        <p>+8801326150227</p>
+                         <div class="card-description" data-lang-key="payment_description_nagad">সহজ ও দ্রুত লেনদেনের জন্য একটি নির্ভরযোগ্য মাধ্যম।</div>
+                    </div>
+                    <div class="donation-card">
+                        <div class="donation-logo-wrapper">
+                            <img src="https://i.imgur.com/7RPClMm.png" alt="Upay Logo" crossorigin="anonymous">
+                        </div>
+                        <h4>Upay</h4>
+                        <p>+8801326150227</p>
+                        <div class="card-description" data-lang-key="payment_description_upay">একটি আধুনিক ও ক্রমবর্ধমান মোবাইল ওয়ালেট।</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CONTACT SECTION -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title" data-lang-key="contact_section_title">যোগাযোগ</h2>
+                <div class="contact-content">
+                    <div class="contact-form-container">
+                        <h3 data-lang-key="contact_form_title">বার্তা পাঠান</h3>
+                        <p data-lang-key="contact_form_subtitle">যেকোনো প্রশ্ন, মতামত বা সহায়তার জন্য নিচের ফর্মটি পূরণ করুন। আমরা যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করব।</p>
+                        <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+                            <!-- Web3Forms Access Key -->
+                            <input type="hidden" name="access_key" value="76c51761-9865-4747-baa6-d18013d487ad">
+                            <!-- Email Subject -->
+                            <input type="hidden" name="subject" value="New Contact Form Submission from Porimap BD">
+                            <!-- Spam Honeypot -->
+                            <input type="checkbox" name="honeypot" style="display:none">
+
+                            <div class="form-group">
+                                <label for="name" data-lang-key="form_name">নাম</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" data-lang-key="form_email">ইমেইল</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject" data-lang-key="form_subject">বিষয়</label>
+                                <input type="text" id="subject" name="subject" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message" data-lang-key="form_message">বার্তা</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn" data-lang-key="form_submit_button">বার্তা পাঠান</button>
+                        </form>
+                    </div>
+                    <div class="map-container">
+                        <h3 data-lang-key="map_title">আমাদের অবস্থান</h3>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7268.4799935393785!2d88.5922258!3d24.372953200000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1751559883029!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- CALCULATION MODAL -->
+    <div id="calculatorModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeModalBtn">×</span>
+            <h3 id="modalTitle"></h3>
+            <p id="modalDescription" style="margin-bottom: 15px; color: #555;"></p>
+            <form id="calculatorForm">
+                <div class="modal-form-inputs" id="modalInputs">
+                    <!-- Dynamic inputs will be added here -->
+                </div>
+                <button type="submit" class="btn" data-lang-key="calculate_button">হিসাব করুন</button>
+            </form>
+            <div id="result-container">
+                <h3 data-lang-key="calculation_result_title">হিসাবের ফলাফল</h3>
+                <table class="result-table" id="result-table">
+                    <thead>
+                        <tr>
+                            <th data-lang-key="table_header_unit">ইউনিট</th>
+                            <th data-lang-key="table_header_value">মান</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="result-actions">
+                    <button class="btn" id="downloadBtn"><i class="material-icons">download</i> <span data-lang-key="download_png">PNG ডাউনলোড</span></button>
+                    <button class="btn" id="shareBtn"><i class="material-icons">share</i> <span data-lang-key="share_result">শেয়ার</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOWNLOADABLE CONTENT DIVs (HIDDEN OFF-SCREEN) -->
+    <div id="downloadable-result">
+        <div class="download-header">
+            <div class="download-logo"><i class="material-icons">architecture</i> পরিমাপ বিডি</div>
+            <div class="download-date" id="download-date-calc"></div>
+        </div>
+        <h2 class="download-title" id="download-title-calc"></h2>
+        <div id="download-table-calc"></div>
+        <div class="download-footer">
+            পরিমাপ বিডি দ্বারা তৈরি। সকল হিসাব আদর্শ মানের উপর ভিত্তি করে। চূড়ান্ত কাজের জন্য রেজিস্টার্ড সার্ভেয়ারের সাহায্য নিন।
+        </div>
+    </div>
+    
+    <div id="downloadable-converter-result">
+        <div class="download-header">
+            <div class="download-logo"><i class="material-icons">architecture</i> পরিমাপ বিডি</div>
+            <div class="download-date" id="download-date-conv"></div>
+        </div>
+        <h2 class="download-title" id="download-title-conv">ইউনিট কনভার্সন রিপোর্ট</h2>
+        <div id="download-table-conv"></div>
+        <div class="download-footer">
+           পরিমাপ বিডি দ্বারা তৈরি। সকল হিসাব আদর্শ মানের উপর ভিত্তি করে। চূড়ান্ত কাজের জন্য রেজিস্টার্ড সার্ভেয়ারের সাহায্য নিন।
+        </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <p data-lang-key="footer_copyright">© 2024 পরিমাপ বিডি | সর্বস্বত্ব সংরক্ষিত।</p>
+            <p><span data-lang-key="footer_developed_by">ডিজাইন ও ডেভেলপ করেছেন</span> <a href="#about">ইয়ামিন হাসান</a></p>
+        </div>
+    </footer>
+
+
+    <!-- INTERNAL JAVASCRIPT -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // --- LANGUAGE DATA ---
+        const langData = {
+            bn: {
+                meta_title: "পরিমাপ বিডি - জমি পরিমাপ ও ইউনিট কনভার্টার",
+                meta_description: "পরিমাপ বিডি একটি আধুনিক ও সহজবোধ্য টুল, যা দিয়ে আপনি জমিজমার ক্ষেত্রফল নির্ণয় এবং বিভিন্ন ইউনিটের মধ্যে রূপান্তর করতে পারবেন।",
+                meta_keywords: "জমি পরিমাপ, ক্ষেত্রফল নির্ণয়, ইউনিট কনভার্টার, বিঘা, কাঠা, শতক, একর, হেক্টর, গন্ডা, ছটাক, porimap bd, land measurement bangladesh",
+                website_name: "পরিমাপ বিডি",
+                nav_home: "হোম",
+                nav_calculator: "ক্ষেত্রফল নির্ণয়",
+                nav_converter: "ইউনিট কনভার্টার",
+                nav_about: "আমার সম্পর্কে",
+                nav_donate: "দান করুন",
+                nav_contact: "যোগাযোগ",
+                select_option: "একক নির্বাচন করুন",
+                home_title: "জমিজমার পরিমাপ, এখন হাতের মুঠোয়।",
+                home_subtitle: "পরিমাপ বিডি একটি আধুনিক ও সহজবোধ্য টুল, যা দিয়ে আপনি জমিজমার ক্ষেত্রফল নির্ণয় এবং বিভিন্ন ইউনিটের মধ্যে রূপান্তর করতে পারবেন। সম্পূর্ণ বিনামূল্যে ও নির্ভুল হিসাব।",
+                home_cta_button: "ক্ষেত্রফল নির্ণয় করুন",
+                how_it_works_title: "এটি কিভাবে কাজ করে",
+                how_it_works_subtitle: "মাত্র ৩টি সহজ ধাপে আপনার জমির ক্ষেত্রফল গণনা করুন।",
+                step1_title: "জমির আকৃতি নির্বাচন",
+                step1_desc: "প্রথমে আপনার জমির আকৃতি (যেমন: চতুর্ভুজ, ত্রিভুজ, বৃত্ত) তালিকা থেকে নির্বাচন করুন।",
+                step2_title: "দৈর্ঘ্য-প্রস্থ ইনপুট দিন",
+                step2_desc: "এরপর নির্দিষ্ট ফর্ম এ আপনার জমির বাহুগুলোর দৈর্ঘ্য ফুট ও ইঞ্চি এককে প্রদান করুন।",
+                step3_title: "ফলাফল দেখুন ও ডাউনলোড করুন",
+                step3_desc: "সাথে সাথে ফলাফল দেখুন বিঘা, কাঠা, শতক সহ বিভিন্ন এককে এবং প্রয়োজন হলে ডাউনলোড করুন।",
+                calculator_section_title: "ক্ষেত্রফল নির্ণয় করুন",
+                calculator_section_subtitle: "নিচের তালিকা থেকে আপনার জমির আকৃতি নির্বাচন করে পরিমাপ শুরু করুন।",
+                calculate_button: "হিসাব করুন",
+                calculation_result_title: "হিসাবের ফলাফল",
+                table_header_unit: "ইউনিট",
+                table_header_value: "মান",
+                download_png: "PNG ডাউনলোড",
+                share_result: "শেয়ার",
+                input_feet: "ফুট",
+                input_inch: "ইঞ্চি",
+                converter_section_title: "ইউনিট কনভার্টার",
+                converter_section_subtitle: "যেকোনো একটি এককের মান ইনপুট করে অন্য এককগুলোতে তার সমতুল্য মান জানুন।",
+                converter_input_label: "পরিমাণ",
+                converter_from_unit_label: "থেকে",
+                converter_result_title: "রূপান্তরিত ফলাফল",
+                testimonial_title: "ব্যবহারকারীদের মতামত",
+                testimonial1_text: `"খুবই উপকারী একটি ওয়েবসাইট। আমার মতো সাধারণ মানুষের জন্য জমিজমার হিসাব অনেক সহজ হয়ে গেছে।"`,
+                testimonial1_name: "আব্দুল করিম",
+                testimonial1_location: "ঢাকা, বাংলাদেশ",
+                testimonial2_text: `"এই সাইটের ইউনিট কনভার্টারটি অসাধারণ। বিশেষ করে PNG ডাউনলোড ফিচারটি আমার খুব কাজে লেগেছে।"`,
+                testimonial2_name: "সুমন আহমেদ",
+                testimonial2_location: "চট্টগ্রাম, বাংলাদেশ",
+                testimonial3_text: `"মোবাইলে খুব সহজে ব্যবহার করা যায়। আমি একজন সার্ভেয়ার, আমার প্রতিদিনের কাজে এটি ব্যবহার করি।"`,
+                testimonial3_name: "ফারিহা ইসলাম",
+                testimonial3_location: "রাজশাহী, বাংলাদেশ",
+                faq_title: "সাধারণ জিজ্ঞাসা",
+                about_section_title: "আমার সম্পর্কে",
+                about_name: "ইয়ামিন হাসান",
+                about_bio_1: "আমি একজন ডিপ্লোমা ইন সার্ভে ইঞ্জিনিয়ারিংয়ের ছাত্র এবং একই সাথে একজন ওয়েব ডেভেলপার। ভূমি জরিপের মতো একটি জটিল বিষয়কে প্রযুক্তির সাহায্যে সাধারণ মানুষের কাছে সহজলভ্য করে তোলার লক্ষ্যে আমি এই টুলটি তৈরি করেছি।",
+                about_bio_2: "আমার মূল উদ্দেশ্য হলো, জমির পরিমাপ সংক্রান্ত যাবতীয় হিসাব-নিকাশকে একটি সহজ এবং নির্ভরযোগ্য প্ল্যাটফর্মে নিয়ে আসা, যাতে যে কেউ সহজেই এটি ব্যবহার করতে পারে। আপনাদের যেকোনো গঠনমূলক মতামত ও পরামর্শ আমাকে এই উদ্যোগকে আরও এগিয়ে নিতে উৎসাহিত করবে।",
+                donate_section_title: "অনুদান পাঠান",
+                donate_section_subtitle: "এই প্রকল্পটি সম্পূর্ণ বিনামূল্যে পরিচালিত হয়। আপনার ছোট্ট একটি অনুদান আমাদের এই প্রকল্পটি চালিয়ে নিতে এবং এটিকে আরও উন্নত করতে বড় অনুপ্রেরণা জোগাবে।",
+                payment_description_bkash: "বাংলাদেশের সবচেয়ে জনপ্রিয় মোবাইল ব্যাংকিং মাধ্যম।",
+                payment_description_nagad: "সহজ ও দ্রুত লেনদেনের জন্য একটি নির্ভরযোগ্য মাধ্যম।",
+                payment_description_upay: "একটি আধুনিক ও ক্রমবর্ধমান মোবাইল ওয়ালেট সেবা।",
+                contact_section_title: "যোগাযোগ",
+                map_title: "আমাদের অবস্থান",
+                contact_form_title: "বার্তা পাঠান",
+                contact_form_subtitle: "যেকোনো প্রশ্ন, মতামত বা সহায়তার জন্য নিচের ফর্মটি পূরণ করুন। আমরা যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করব।",
+                form_name: "নাম",
+                form_email: "ইমেইল",
+                form_subject: "বিষয়",
+                form_message: "বার্তা",
+                form_submit_button: "বার্তা পাঠান",
+                share_text_area: "আমি পরিমাপ বিডি ব্যবহার করে জমির ক্ষেত্রফল নির্ণয় করেছি। ফলাফল:",
+                share_text_converter: "আমি পরিমাপ বিডি ব্যবহার করে ইউনিট রূপান্তর করেছি। ফলাফল:",
+                footer_copyright: "© 2024 পরিমাপ বিডি | সর্বস্বত্ব সংরক্ষিত।",
+                footer_developed_by: "ডিজাইন ও ডেভেলপ করেছেন"
+            },
+            en: {
+                meta_title: "Porimap BD - Land Measurement & Unit Converter",
+                meta_description: "Porimap BD is a modern and user-friendly tool for calculating land area and converting between various units.",
+                meta_keywords: "land measurement, area calculator, unit converter, bigha, katha, shatak, acre, hector, gonda, chhatak, porimap bd, bangladesh",
+                website_name: "Porimap BD",
+                nav_home: "Home",
+                nav_calculator: "Area Calculator",
+                nav_converter: "Unit Converter",
+                nav_about: "About Me",
+                nav_donate: "Donate",
+                nav_contact: "Contact",
+                select_option: "Select Unit",
+                home_title: "Land Measurement, At Your Fingertips.",
+                home_subtitle: "Porimap BD is a modern and user-friendly tool for calculating land area and converting between various units. Completely free and accurate.",
+                home_cta_button: "Calculate Area",
+                how_it_works_title: "How It Works",
+                how_it_works_subtitle: "Calculate your land area in just 3 easy steps.",
+                step1_title: "Select Land Shape",
+                step1_desc: "First, select the shape of your land (e.g., quadrilateral, triangle, circle) from the list.",
+                step2_title: "Input Dimensions",
+                step2_desc: "Next, provide the lengths of the sides of your land in feet and inches in the specific form.",
+                step3_title: "Get & Download Result",
+                step3_desc: "Instantly see the result in various units like Bigha, Katha, Shatak, and download if needed.",
+                calculator_section_title: "Calculate Area",
+                calculator_section_subtitle: "Select your land shape from the list below to start measuring.",
+                calculate_button: "Calculate",
+                calculation_result_title: "Calculation Result",
+                table_header_unit: "Unit",
+                table_header_value: "Value",
+                download_png: "Download PNG",
+                share_result: "Share",
+                input_feet: "Feet",
+                input_inch: "Inches",
+                converter_section_title: "Unit Converter",
+                converter_section_subtitle: "Input a value in any unit to see its equivalent in other units.",
+                converter_input_label: "Amount",
+                converter_from_unit_label: "From",
+                converter_result_title: "Converted Results",
+                testimonial_title: "User Testimonials",
+                testimonial1_text: `"A very useful website. Land calculation has become much easier for common people like me."`,
+                testimonial1_name: "Abdul Karim",
+                testimonial1_location: "Dhaka, Bangladesh",
+                testimonial2_text: `"The unit converter on this site is excellent. The PNG download feature has been very helpful for me."`,
+                testimonial2_name: "Sumon Ahmed",
+                testimonial2_location: "Chittagong, Bangladesh",
+                testimonial3_text: `"Very easy to use on mobile. As a surveyor, I use it in my daily work."`,
+                testimonial3_name: "Fariha Islam",
+                testimonial3_location: "Rajshahi, Bangladesh",
+                faq_title: "Frequently Asked Questions",
+                about_section_title: "About Me",
+                about_name: "Yamin Hasan",
+                about_bio_1: "I am a student of Diploma in Survey Engineering and also a web developer. I created this tool to make a complex subject like land surveying accessible to the common people with the help of technology.",
+                about_bio_2: "My main goal is to bring all the calculations related to land measurement into a simple and reliable platform that anyone can use easily. Your constructive feedback and suggestions will encourage me to take this initiative further.",
+                donate_section_title: "Send a Donation",
+                donate_section_subtitle: "This project is run entirely free of charge. Your small donation will be a great inspiration to continue and improve this project.",
+                payment_description_bkash: "The most popular mobile banking service in Bangladesh.",
+                payment_description_nagad: "A reliable medium for easy and fast transactions.",
+                payment_description_upay: "A modern and growing mobile wallet service.",
+                contact_section_title: "Contact",
+                map_title: "Our Location",
+                contact_form_title: "Send a Message",
+                contact_form_subtitle: "For any questions, feedback, or support, please fill out the form below. We will get back to you as soon as possible.",
+                form_name: "Name",
+                form_email: "Email",
+                form_subject: "Subject",
+                form_message: "Message",
+                form_submit_button: "Send Message",
+                share_text_area: "I've calculated my land area using Porimap BD. The result is:",
+                share_text_converter: "I've converted units using Porimap BD. The result is:",
+                footer_copyright: "© 2024 Porimap BD | All Rights Reserved.",
+                footer_developed_by: "Designed & Developed by"
+            }
+        };
+
+        // --- CORE ELEMENTS ---
+        const langSwitch = document.getElementById('langSwitch');
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        let currentLang = 'bn';
+
+        const setLanguage = (lang) => {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.body.style.fontFamily = lang === 'bn' ? 'var(--font-bn)' : 'var(--font-en)';
+            
+            document.querySelectorAll('[data-lang-key]').forEach(el => {
+                const key = el.getAttribute('data-lang-key');
+                if (langData[lang][key]) {
+                    const target = el.querySelector('span') || el;
+                    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                        if(el.type !== 'submit') el.placeholder = langData[lang][key];
+                    } else if (el.tagName === 'META') {
+                        el.content = langData[lang][key];
+                    }
+                    else {
+                        target.innerHTML = langData[lang][key];
+                    }
+                }
+            });
+
+            langSwitch.querySelector('.bn').classList.toggle('active', lang === 'bn');
+            langSwitch.querySelector('.en').classList.toggle('active', lang === 'en');
+            
+            renderShapeCards();
+            renderFaqItems();
+            renderUnitConverterOptions();
+
+            if (lastResultData.sq_ft) displayResults(lastResultData.sq_ft, false);
+            if (Object.keys(lastConverterResult).length > 0) performConversion();
+        };
+
+        langSwitch.addEventListener('click', (e) => {
+            if (e.target.classList.contains('bn')) {
+                setLanguage('bn');
+            } else if (e.target.classList.contains('en')) {
+                setLanguage('en');
+            }
+        });
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        const CONVERSIONS = {
+            SQ_FT_PER_BIGHA: 14400,
+            SQ_FT_PER_KATHA: 720,
+            SQ_FT_PER_CHHATAK: 45,
+            SQ_FT_PER_GONDA: 2.25,
+            SQ_FT_PER_SHATAK: 435.6,
+            SQ_FT_PER_ACRE: 43560,
+            SQ_FT_PER_HECTARE: 107639.1,
+        };
+        
+        const shapes = [
+            { id: 'bishom_bahu', icon: 'crop_landscape', formula: 'heron_diagonal' },
+            { id: 'rectangle', icon: 'crop_7_5', formula: 'rectangle' },
+            { id: 'square', icon: 'crop_square', formula: 'square' },
+            { id: 'trapezium', icon: 'show_chart', formula: 'trapezium' },
+            { id: 'parallelogram', icon: 'send', formula: 'parallelogram' },
+            { id: 'rhombus', icon: 'change_history', formula: 'rhombus' },
+            { id: 'kite', icon: 'details', formula: 'kite' },
+            { id: 'polygon', icon: 'pentagon', formula: 'regular_polygon' },
+            { id: 'right_triangle', icon: 'signal_cellular_alt_2_bar', formula: 'right_triangle' },
+            { id: 'equilateral_triangle', icon: 'play_arrow', formula: 'equilateral_triangle' },
+            { id: 'isosceles_triangle', icon: 'eject', formula: 'isosceles_triangle' },
+            { id: 'scalene_triangle', icon: 'trending_up', formula: 'scalene_triangle' },
+            { id: 'circle', icon: 'circle', formula: 'circle' },
+            { id: 'semicircle', icon: 'nightlight_round', formula: 'semicircle' },
+            { id: 'ellipse', icon: 'lens_blur', formula: 'ellipse' },
+            { id: 'circle_sector', icon: 'pie_chart', formula: 'circle_sector' },
+        ];
+        
+        const shapeLang = {
+            bn: {
+                bishom_bahu: { name: 'বিষমবাহু চতুর্ভুজ', desc: 'চারটি ভিন্ন বাহু ও একটি কর্ণ দ্বারা পরিমাপ', labels: ['বাহু ১', 'বাহু ২', 'বাহু ৩', 'বাহু ৪', 'কর্ণ'] },
+                rectangle: { name: 'আয়ত', desc: 'বিপরীত বাহুগুলো সমান ও সমান্তরাল', labels: ['দৈর্ঘ্য', 'প্রস্থ'] },
+                square: { name: 'বর্গ', desc: 'চারটি বাহু সমান', labels: ['এক বাহুর দৈর্ঘ্য'] },
+                trapezium: { name: 'ট্রাপিজিয়াম', desc: 'দুটি সমান্তরাল বাহু ও তাদের উচ্চতা', labels: ['সমান্তরাল বাহু ১', 'সমান্তরাল বাহু ২', 'উচ্চতা'] },
+                parallelogram: { name: 'সামান্তরিক', desc: 'ভূমি, সংলগ্ন বাহু ও মধ্যবর্তী কোণ', labels: ['ভূমি', 'সংলগ্ন বাহু', 'মধ্যবর্তী কোণ (ডিগ্রী)'] },
+                rhombus: { name: 'রম্বস', desc: 'দুটি কর্ণের দৈর্ঘ্য দ্বারা পরিমাপ', labels: ['কর্ণ ১', 'কর্ণ ২'] },
+                kite: { name: 'ঘুড়ি', desc: 'দুটি কর্ণের দৈর্ঘ্য দ্বারা পরিমাপ', labels: ['কর্ণ ১', 'কর্ণ ২'] },
+                polygon: { name: 'সুষম বহুভুজ', desc: 'সকল বাহু সমান এমন বহুভুজের পরিমাপ', labels: ['বাহুর সংখ্যা (n)', 'এক বাহুর দৈর্ঘ্য'] },
+                right_triangle: { name: 'সমকোণী ত্রিভুজ', desc: 'ভূমি ও উচ্চতা দ্বারা পরিমাপ', labels: ['ভূমি', 'উচ্চতা'] },
+                equilateral_triangle: { name: 'সমবাহু ত্রিভুজ', desc: 'তিনটি বাহু সমান', labels: ['এক বাহুর দৈর্ঘ্য'] },
+                isosceles_triangle: { name: 'সমদ্বিবাহু ত্রিভুজ', desc: 'দুটি সমান বাহু ও ভূমি', labels: ['সমান বাহু', 'ভূমি'] },
+                scalene_triangle: { name: 'বিষমবাহু ত্রিভুজ', desc: 'তিনটি ভিন্ন বাহু দ্বারা পরিমাপ', labels: ['বাহু ১', 'বাহু ২', 'বাহু ৩'] },
+                circle: { name: 'বৃত্ত', desc: 'ব্যাসার্ধ দ্বারা পরিমাপ', labels: ['ব্যাসার্ধ'] },
+                ellipse: { name: 'ডিম্বাকৃতি', desc: 'প্রধান ও অপ্রধান অক্ষের অর্ধেক', labels: ['প্রধান অক্ষের অর্ধেক (a)', 'অপ্রধান অক্ষের অর্ধেক (b)'] },
+                semicircle: { name: 'অর্ধবৃত্ত', desc: 'ব্যাসার্ধ দ্বারা পরিমাপ', labels: ['ব্যাসার্ধ'] },
+                circle_sector: { name: 'বৃত্তকলা', desc: 'ব্যাসার্ধ এবং মধ্যবর্তী কোণ দ্বারা পরিমাপ', labels: ['ব্যাসার্ধ', 'কোণ (ডিগ্রী)'] },
+            },
+            en: {
+                bishom_bahu: { name: 'Irregular Quadrilateral', desc: 'Measured by four sides and a diagonal', labels: ['Side 1', 'Side 2', 'Side 3', 'Side 4', 'Diagonal'] },
+                rectangle: { name: 'Rectangle', desc: 'Opposite sides are equal and parallel', labels: ['Length', 'Width'] },
+                square: { name: 'Square', desc: 'All four sides are equal', labels: ['Length of one side'] },
+                trapezium: { name: 'Trapezium', desc: 'Two parallel sides and their height', labels: ['Parallel Side 1', 'Parallel Side 2', 'Height'] },
+                parallelogram: { name: 'Parallelogram', desc: 'Base, adjacent side, and the angle', labels: ['Base', 'Adjacent Side', 'Angle (degrees)'] },
+                rhombus: { name: 'Rhombus', desc: 'Measured by the two diagonals', labels: ['Diagonal 1', 'Diagonal 2'] },
+                kite: { name: 'Kite', desc: 'Measured by the two diagonals', labels: ['Diagonal 1', 'Diagonal 2'] },
+                polygon: { name: 'Regular Polygon', desc: 'Polygon with all equal sides', labels: ['Number of Sides (n)', 'Length of one side'] },
+                right_triangle: { name: 'Right Triangle', desc: 'Measured by base and height', labels: ['Base', 'Height'] },
+                equilateral_triangle: { name: 'Equilateral Triangle', desc: 'All three sides are equal', labels: ['Length of one side'] },
+                isosceles_triangle: { name: 'Isosceles Triangle', desc: 'Two equal sides and a base', labels: ['Equal Side', 'Base'] },
+                scalene_triangle: { name: 'Scalene Triangle', desc: 'Measured by three different sides', labels: ['Side 1', 'Side 2', 'Side 3'] },
+                circle: { name: 'Circle', desc: 'Measured by its radius', labels: ['Radius'] },
+                ellipse: { name: 'Ellipse', desc: 'Half of major and minor axes', labels: ['Semi-major axis (a)', 'Semi-minor axis (b)'] },
+                semicircle: { name: 'Semicircle', desc: 'Measured by its radius', labels: ['Radius'] },
+                circle_sector: { name: 'Circle Sector', desc: 'Measured by radius and angle', labels: ['Radius', 'Angle (degrees)'] },
+            }
+        };
+
+        const shapeGrid = document.querySelector('.shape-grid');
+        
+        function renderShapeCards() {
+            shapeGrid.innerHTML = '';
+            shapes.forEach(shape => {
+                const data = shapeLang[currentLang][shape.id];
+                const card = document.createElement('div');
+                card.className = 'shape-card';
+                card.dataset.shape = shape.id;
+                card.innerHTML = `
+                    <i class="material-icons icon">${shape.icon}</i>
+                    <h4>${data.name}</h4>
+                    <p>${data.desc}</p>
+                `;
+                card.addEventListener('click', () => openCalculatorModal(shape.id));
+                shapeGrid.appendChild(card);
+            });
+        }
+        
+        const modal = document.getElementById('calculatorModal');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalInputs = document.getElementById('modalInputs');
+        const calculatorForm = document.getElementById('calculatorForm');
+        const resultContainer = document.getElementById('result-container');
+        const resultTableBody = document.querySelector('#result-table tbody');
+        let currentShapeId = null;
+
+        function openCalculatorModal(shapeId) {
+            currentShapeId = shapeId;
+            const shape = shapes.find(s => s.id === shapeId);
+            const data = shapeLang[currentLang][shapeId];
+            
+            modalTitle.textContent = data.name;
+            modalDescription.textContent = data.desc;
+            modalInputs.innerHTML = '';
+            
+            data.labels.forEach((label, index) => {
+                let inputHtml;
+                const fieldId = `input_${index}`;
+                
+                if (shape.id === 'parallelogram' && index === 2) {
+                    inputHtml = `<div class="input-group"><label for="${fieldId}">${label}</label><input type="number" id="${fieldId}" step="any" placeholder="e.g., 90" required></div>`;
+                } else if (shape.id === 'polygon' && index === 0) {
+                    inputHtml = `<div class="input-group"><label for="${fieldId}">${label}</label><input type="number" id="${fieldId}" step="1" min="3" placeholder="e.g., 5" required></div>`;
+                } else if (shape.id === 'circle_sector' && index === 1) {
+                    inputHtml = `<div class="input-group"><label for="${fieldId}">${label}</label><input type="number" id="${fieldId}" step="any" placeholder="e.g., 90" required></div>`;
+                } else {
+                    inputHtml = `<div class="input-group">
+                                    <label>${label}</label>
+                                    <div class="input-pair">
+                                        <input type="number" id="${fieldId}_ft" step="any" placeholder="${langData[currentLang].input_feet}" required>
+                                        <input type="number" id="${fieldId}_in" step="any" placeholder="${langData[currentLang].input_inch}">
+                                    </div>
+                                 </div>`;
+                }
+                modalInputs.innerHTML += inputHtml;
+            });
+
+            calculatorForm.reset();
+            resultContainer.style.display = 'none';
+            modal.style.display = 'block';
+        }
+
+        closeModalBtn.onclick = () => { modal.style.display = 'none'; };
+        window.onclick = (event) => { if (event.target == modal) modal.style.display = 'none'; };
+        
+        const getInputVal = (index) => (parseFloat(document.getElementById(`input_${index}_ft`).value) || 0) + ((parseFloat(document.getElementById(`input_${index}_in`).value) || 0) / 12);
+        const getSingleInputVal = (index) => parseFloat(document.getElementById(`input_${index}`).value) || 0;
+
+        calculatorForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const shape = shapes.find(s => s.id === currentShapeId);
+            let area = 0;
+            const heron = (a, b, c) => {
+                if (a <= 0 || b <= 0 || c <= 0 || a + b <= c || a + c <= b || b + c <= a) return 0;
+                const s = (a + b + c) / 2;
+                return Math.sqrt(s * (s - a) * (s - b) * (s - c));
+            };
+
+            try {
+                switch(shape.formula) {
+                    case 'heron_diagonal': area = heron(getInputVal(0), getInputVal(1), getInputVal(4)) + heron(getInputVal(2), getInputVal(3), getInputVal(4)); break;
+                    case 'rectangle': area = getInputVal(0) * getInputVal(1); break;
+                    case 'square': const sSq = getInputVal(0); area = sSq * sSq; break;
+                    case 'trapezium': area = ((getInputVal(0) + getInputVal(1)) / 2) * getInputVal(2); break;
+                    case 'parallelogram': area = getInputVal(0) * getInputVal(1) * Math.sin(getSingleInputVal(2) * Math.PI / 180); break;
+                    case 'rhombus': case 'kite': area = (getInputVal(0) * getInputVal(1)) / 2; break;
+                    case 'right_triangle': area = (getInputVal(0) * getInputVal(1)) / 2; break;
+                    case 'equilateral_triangle': const sEq = getInputVal(0); area = (Math.sqrt(3) / 4) * sEq * sEq; break;
+                    case 'isosceles_triangle': const eqS = getInputVal(0), bIso = getInputVal(1); if (2 * eqS > bIso) area = (bIso / 2) * Math.sqrt(eqS*eqS - (bIso*bIso/4)); break;
+                    case 'scalene_triangle': area = heron(getInputVal(0), getInputVal(1), getInputVal(2)); break;
+                    case 'circle': const r = getInputVal(0); area = Math.PI * r * r; break;
+                    case 'ellipse': area = Math.PI * getInputVal(0) * getInputVal(1); break;
+                    case 'semicircle': const rSemi = getInputVal(0); area = (Math.PI * rSemi * rSemi) / 2; break;
+                    case 'regular_polygon': const n = getSingleInputVal(0), sPoly = getInputVal(1); if (n >= 3) area = (n * sPoly * sPoly) / (4 * Math.tan(Math.PI / n)); break;
+                    case 'circle_sector': area = (Math.PI * getInputVal(0) * getInputVal(0) * getSingleInputVal(1)) / 360; break;
+                }
+            } catch (error) {
+                 alert(currentLang === 'bn' ? 'দয়া করে সঠিক ইনপুট দিন।' : 'Please provide valid inputs.');
+                 return;
+            }
+            
+            if (area > 0 && isFinite(area)) displayResults(area, true);
+            else alert(currentLang === 'bn' ? 'অবৈধ ইনপুট অথবা এই বাহু দিয়ে ক্ষেত্র গঠন সম্ভব নয়।' : 'Invalid input or the shape cannot be formed with these dimensions.');
+        });
+
+        let lastResultData = {};
+
+        function displayResults(sqFt, isNewCalculation) {
+            if (isNewCalculation) {
+                lastResultData = {
+                    bigha: sqFt / CONVERSIONS.SQ_FT_PER_BIGHA,
+                    katha: sqFt / CONVERSIONS.SQ_FT_PER_KATHA,
+                    chhatak: sqFt / CONVERSIONS.SQ_FT_PER_CHHATAK,
+                    gonda: sqFt / CONVERSIONS.SQ_FT_PER_GONDA,
+                    shatak: sqFt / CONVERSIONS.SQ_FT_PER_SHATAK,
+                    acre: sqFt / CONVERSIONS.SQ_FT_PER_ACRE,
+                    hectare: sqFt / CONVERSIONS.SQ_FT_PER_HECTARE,
+                    sq_ft: sqFt
+                };
+            }
+            const unitNames = {
+                bn: { bigha: 'বিঘা', katha: 'কাঠা', chhatak: 'ছটাক', gonda: 'গন্ডা', shatak: 'শতক', acre: 'একর', hectare: 'হেক্টর', sq_ft: 'বর্গফুট' },
+                en: { bigha: 'Bigha', katha: 'Katha', chhatak: 'Chhatak', gonda: 'Gonda', shatak: 'Shatak', acre: 'Acre', hectare: 'Hectare', sq_ft: 'Square Feet' }
+            };
+            const displayOrder = ['sq_ft', 'shatak', 'katha', 'bigha', 'acre', 'hectare', 'chhatak', 'gonda'];
+            
+            resultTableBody.innerHTML = displayOrder.map(unit =>
+                `<tr><td>${unitNames[currentLang][unit]}</td><td>${lastResultData[unit].toFixed(4)}</td></tr>`
+            ).join('');
+            
+            resultContainer.style.display = 'block';
+        }
+
+        const downloadBtn = document.getElementById('downloadBtn');
+        const shareBtn = document.getElementById('shareBtn');
+
+        downloadBtn.addEventListener('click', () => {
+            prepareDownloadableContent('calc');
+            html2canvas(document.getElementById('downloadable-result'), { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `porimap-bd-result-${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+        
+        shareBtn.addEventListener('click', () => {
+            const uNames = currentLang === 'bn' ? { sq_ft: 'বর্গফুট', shatak: 'শতক', katha: 'কাঠা' } : { sq_ft: 'sq ft', shatak: 'Shatak', katha: 'Katha' };
+            const shareText = `${langData[currentLang].share_text_area}\n${lastResultData.sq_ft.toFixed(2)} ${uNames.sq_ft} (${lastResultData.shatak.toFixed(2)} ${uNames.shatak}, ${lastResultData.katha.toFixed(2)} ${uNames.katha}).\n\nনির্ভুলভাবে জমির হিসাব করুন পরিমাপ বিডি দিয়ে:\n${window.location.href.split(/[?#]/)[0]}`;
+            if (navigator.share) {
+                navigator.share({ title: 'Porimap BD Result', text: shareText });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert(currentLang === 'bn' ? 'ফলাফল ক্লিপবোর্ডে কপি করা হয়েছে।' : 'Result copied to clipboard.');
+                });
+            }
+        });
+
+        function prepareDownloadableContent(type) {
+            let container, titleEl, dateEl, tableEl, tableBody, data;
+            const shapeName = currentShapeId ? shapeLang[currentLang][currentShapeId]?.name : (currentLang === 'bn' ? 'ইউনিট কনভার্সন' : 'Unit Conversion');
+
+            if(type === 'calc') {
+                container = document.getElementById('downloadable-result');
+                titleEl = document.getElementById('download-title-calc');
+                dateEl = document.getElementById('download-date-calc');
+                tableEl = document.getElementById('download-table-calc');
+                tableBody = resultTableBody.innerHTML;
+                data = langData[currentLang];
+                titleEl.textContent = `${shapeName} - ${data.calculation_result_title}`;
+            } else {
+                container = document.getElementById('downloadable-converter-result');
+                titleEl = document.getElementById('download-title-conv');
+                dateEl = document.getElementById('download-date-conv');
+                tableEl = document.getElementById('download-table-conv');
+                tableBody = document.querySelector('#converter-result-table tbody').innerHTML;
+                data = langData[currentLang];
+                titleEl.textContent = data.converter_result_title;
+            }
+
+            container.style.fontFamily = currentLang === 'bn' ? 'var(--font-bn)' : 'var(--font-en)';
+            dateEl.textContent = new Date().toLocaleString(currentLang === 'bn' ? 'bn-BD' : 'en-US');
+            tableEl.innerHTML = `<table class="result-table" style="width:100%; border-collapse: collapse; font-size: 16px;"><thead><tr><th style="padding: 12px; border: 1px solid #ddd; text-align: left; background-color: #00796b; color: #fff;">${data.table_header_unit}</th><th style="padding: 12px; border: 1px solid #ddd; text-align: left; background-color: #00796b; color: #fff;">${data.table_header_value}</th></tr></thead><tbody>${tableBody}</tbody></table>`;
+        }
+
+        const faqContainer = document.querySelector('.faq-container');
+        const faqData = { bn: [ {q: 'এই ওয়েবসাইটটি কি বিনামূল্যে ব্যবহার করা যায়?', a: 'হ্যাঁ, পরিমাপ বিডি সম্পূর্ণ বিনামূল্যে ব্যবহার করা যায়।'}, {q: 'হিসাবগুলো কি নির্ভরযোগ্য?', a: 'হ্যাঁ, সকল হিসাব প্রচলিত ভূমি জরিপ সূত্র অনুযায়ী করা হয়। তবে চূড়ান্ত আইনি কাজের জন্য রেজিস্টার্ড সার্ভেয়ারের সাহায্য নিন।'}, {q: 'ফুট এবং ইঞ্চিতে কিভাবে ইনপুট দেব?', a: 'প্রতিটি দৈর্ঘ্যের জন্য দুটি বক্স রয়েছে। যেমন, ৫ ফুট ৬ ইঞ্চির জন্য প্রথম বক্সে 5 এবং দ্বিতীয় বক্সে 6 লিখুন।'}, {q: 'বিষমবাহু চতুর্ভুজের কর্ণ কোনটি?', a: 'জমিকে দুটি ত্রিভুজে ভাগ করার জন্য যেকোনো একটি কোণাকুণি কর্ণ (diagonal) মেপে ইনপুট দিন।'}, {q: 'ফলাফল প্রিন্ট করা যাবে?', a: 'হ্যাঁ, ফলাফল PNG ফাইল হিসেবে ডাউনলোড করে প্রিন্ট করতে পারেন।'}, {q: 'মোবাইল থেকে ব্যবহার করা যাবে?', a: 'অবশ্যই। ওয়েবসাইটটি সম্পূর্ণ মোবাইল ফ্রেন্ডলি এবং যেকোনো ডিভাইস থেকে সহজে ব্যবহারযোগ্য।'}, {q: 'গন্ডা ও ছটাকের হিসাব কি সঠিক?', a: 'হ্যাঁ, এখানে ১ কাঠা = ১৬ ছটাক এবং ১ ছটাক = ২০ গন্ডা হিসেবে হিসাব করা হয়েছে, যা বিভিন্ন অঞ্চলে প্রচলিত।'}], en: [ {q: 'Is this website free to use?', a: 'Yes, Porimap BD is completely free to use.'}, {q: 'Are the calculations reliable?', a: 'Yes, all calculations are based on standard land survey formulas. For legal purposes, consult a registered surveyor.'}, {q: 'How to input feet and inches?', a: 'Enter feet and inches in their respective boxes. E.g., for 5 ft 6 in, enter 5 in the first box and 6 in the second.'}, {q: 'Which diagonal to use for an irregular quadrilateral?', a: 'Measure any diagonal that divides the land into two triangles and input its length.'}, {q: 'Can I print the results?', a: 'Yes, you can download the results as a PNG file and then print it.'}, {q: 'Can I use it from a mobile phone?', a: 'Absolutely. The website is fully mobile-friendly.'}, {q: 'Are the Gonda and Chhatak calculations correct?', a: 'Yes, the calculation is based on 1 Katha = 16 Chhatak and 1 Chhatak = 20 Gonda, a common standard.'}]};
+
+        function renderFaqItems() {
+            faqContainer.innerHTML = '';
+            faqData[currentLang].forEach(item => {
+                const faqItem = document.createElement('div');
+                faqItem.className = 'faq-item';
+                faqItem.innerHTML = `<div class="faq-question">${item.q}</div><div class="faq-answer"><p>${item.a}</p></div>`;
+                faqContainer.appendChild(faqItem);
+            });
+            document.querySelectorAll('.faq-question').forEach(item => {
+                item.addEventListener('click', event => {
+                    const parent = event.currentTarget.parentElement;
+                    
+                    document.querySelectorAll('.faq-item.active').forEach(i => {
+                        if (i !== parent) {
+                            i.classList.remove('active');
+                            i.querySelector('.faq-answer').style.maxHeight = null;
+                        }
+                    });
+                    
+                    parent.classList.toggle('active');
+                    if (parent.classList.contains('active')) {
+                        parent.querySelector('.faq-answer').style.maxHeight = parent.querySelector('.faq-answer').scrollHeight + "px";
+                    } else {
+                        parent.querySelector('.faq-answer').style.maxHeight = null;
+                    }
+                });
+            });
+        }
+        
+        const converterInput = document.getElementById('converter-input');
+        const fromUnitSelect = document.getElementById('from-unit');
+        const converterResultContainer = document.getElementById('converter-result-container');
+        const converterResultTableBody = document.querySelector('#converter-result-table tbody');
+        const units = { bigha: { name_bn: 'বিঘা', name_en: 'Bigha', to_sqft: 14400 }, katha: { name_bn: 'কাঠা', name_en: 'Katha', to_sqft: 720 }, shatak: { name_bn: 'শতক', name_en: 'Shatak', to_sqft: 435.6 }, acre: { name_bn: 'একর', name_en: 'Acre', to_sqft: 43560 }, hectare: { name_bn: 'হেক্টর', name_en: 'Hectare', to_sqft: 107639.1 }, sq_ft: { name_bn: 'বর্গফুট', name_en: 'Square Feet', to_sqft: 1 }, chhatak: { name_bn: 'ছটাক', name_en: 'Chhatak', to_sqft: 45 }, gonda: { name_bn: 'গন্ডা', name_en: 'Gonda', to_sqft: 2.25 }, sq_m: { name_bn: 'বর্গমিটার', name_en: 'Square Meter', to_sqft: 10.76391 } };
+        let lastConverterResult = {};
+        
+        function renderUnitConverterOptions() {
+            const currentVal = fromUnitSelect.value;
+            fromUnitSelect.innerHTML = '';
+
+            const placeholder = document.createElement('option');
+            placeholder.value = "";
+            placeholder.textContent = langData[currentLang].select_option;
+            placeholder.disabled = true;
+            placeholder.selected = !currentVal;
+            fromUnitSelect.appendChild(placeholder);
+            
+            const displayOrder = ['sq_ft', 'shatak', 'katha', 'bigha', 'acre', 'hectare', 'chhatak', 'gonda', 'sq_m'];
+
+            displayOrder.forEach(key => {
+                 const option = document.createElement('option');
+                 option.value = key;
+                 option.textContent = units[key][`name_${currentLang}`];
+                 fromUnitSelect.appendChild(option);
+            });
+
+            if(currentVal) fromUnitSelect.value = currentVal;
+        }
+        
+        function performConversion() {
+            const inputValue = parseFloat(converterInput.value);
+            const fromUnit = fromUnitSelect.value;
+
+            if (isNaN(inputValue) || inputValue <= 0 || !fromUnit) {
+                converterResultContainer.style.display = 'none';
+                lastConverterResult = {};
+                return;
+            }
+            const valueInSqFt = inputValue * units[fromUnit].to_sqft;
+            lastConverterResult = {};
+            converterResultTableBody.innerHTML = '';
+            
+            const displayOrder = ['sq_ft', 'shatak', 'katha', 'bigha', 'acre', 'hectare', 'chhatak', 'gonda', 'sq_m'];
+
+            displayOrder.forEach(key => {
+                const convertedValue = valueInSqFt / units[key].to_sqft;
+                lastConverterResult[key] = convertedValue;
+                converterResultTableBody.innerHTML += `<tr><td>${units[key][`name_${currentLang}`]}</td><td>${convertedValue.toFixed(6)}</td></tr>`;
+            });
+            converterResultContainer.style.display = 'block';
+        }
+
+        converterInput.addEventListener('input', performConversion);
+        fromUnitSelect.addEventListener('change', performConversion);
+        
+        const downloadConverterBtn = document.getElementById('downloadConverterBtn');
+        const shareConverterBtn = document.getElementById('shareConverterBtn');
+        
+        downloadConverterBtn.addEventListener('click', () => {
+            if (Object.keys(lastConverterResult).length === 0) return;
+            prepareDownloadableContent('conv');
+            html2canvas(document.getElementById('downloadable-converter-result'), { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `porimap-bd-conversion-${Date.now()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        });
+
+        shareConverterBtn.addEventListener('click', () => {
+            const inputValue = parseFloat(converterInput.value);
+            const fromUnitKey = fromUnitSelect.value;
+            if (isNaN(inputValue) || !fromUnitKey) return;
+            
+            const fromUnitName = units[fromUnitKey][`name_${currentLang}`];
+            const toUnitKey = fromUnitKey === 'sq_ft' ? 'shatak' : 'sq_ft';
+            const toUnitName = units[toUnitKey][`name_${currentLang}`];
+            const toValue = lastConverterResult[toUnitKey];
+
+            const shareText = `${langData[currentLang].share_text_converter}\n${inputValue} ${fromUnitName} = ${toValue.toFixed(4)} ${toUnitName}.\n\nনির্ভুলভাবে ইউনিট কনভার্ট করুন পরিমাপ বিডি দিয়ে:\n${window.location.href.split(/[?#]/)[0]}`;
+            if (navigator.share) {
+                navigator.share({ title: 'Porimap BD Unit Conversion', text: shareText });
+            } else {
+                 navigator.clipboard.writeText(shareText).then(() => {
+                    alert(currentLang === 'bn' ? 'ফলাফল ক্লিপবোর্ডে কপি করা হয়েছে।' : 'Result copied to clipboard.');
+                });
+            }
+        });
+
+        // --- INITIAL RENDER ---
+        setLanguage('bn');
+        
+    });
+    </script>
+    
+    <script type='text/javascript'>
+    //<![CDATA[
+    (function(){
+    var uri = window.location.toString();
+    if (uri.indexOf("%3D","%3D") > 0) { var clean_uri = uri.substring(0, uri.indexOf("%3D")); window.history.replaceState({}, document.title, clean_uri); }
+    if (uri.indexOf("%3D%3D","%3D%3D") > 0) { var clean_uri = uri.substring(0, uri.indexOf("%3D%3D")); window.history.replaceState({}, document.title, clean_uri); }
+    if (uri.indexOf("&m=1","&m=1") > 0) { var clean_uri = uri.substring(0, uri.indexOf("&m=1")); window.history.replaceState({}, document.title, clean_uri); }
+    if (uri.indexOf("?m=1","?m=1") > 0) { var clean_uri = uri.substring(0, uri.indexOf("?m=1")); window.history.replaceState({}, document.title, clean_uri); }
+    })();
+    //]]>
+    </script>
+</body>
+</html>
